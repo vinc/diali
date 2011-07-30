@@ -154,6 +154,27 @@ $(document).ready ->
         return
 
     # Activities list
+
+    # Stop activity
+    $('.stop-activity').submit ->
+        form = $ this
+        key = 'activity[aid]'
+        val = $('input[name="' + key + '"]', this).val()
+        data = [key + '=' + val]
+        for field in ['time', 'type', 'hours', 'minutes', 'period']
+            key = 'activity[' + field + ']'
+            val = $('select[name="' + key + '"]', this).val()
+            data.push key + '=' + val
+        $.post '/user/activity/stop', data.join('&'), (duration) ->
+            activity = form.parent()
+            form.remove()
+            msg = 'and you did it for ' + duration + '.'
+            #msg = 'and you just stopped it.'
+            html = '<p class="stop-activity">' + msg + '</p>'
+            activity.append(html)
+            return
+        return false
+    # Delete activity
     $(".delete-activity").click -> 
         #e.preventDefault 
         if confirm "This activity will be permanently deleted." 

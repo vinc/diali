@@ -7,6 +7,11 @@ units =
     day: 24
     year: 365
 
+exports.timedelta = (duration) ->
+    end = (new Date()).getTime()
+    start = end - duration
+    return exports.timesince(start, end, true)
+
 exports.timesince = (start, end = (new Date()).getTime(), duration = false) ->
     delta = end - start
     if delta < 0 # The event ended before it started

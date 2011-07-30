@@ -186,7 +186,7 @@ app.get '/user/activity/list/:start?/?:stop?', (req, res) ->
     start = if req.params.start? then req.params.start else 0
     stop = if req.params.stop? then req.params.stop else 19
     uid = req.options.user.id
-    console.log "GET activities from '%d' to '%d'", start, stop
+    #console.log "GET activities from '%d' to '%d'", start, stop
     model.getUserActivities uid, start, stop, (err, activities) ->
         if not req.xhr
             if activities.length is 0
@@ -198,10 +198,10 @@ app.get '/user/activity/list/:start?/?:stop?', (req, res) ->
         
         # Rewrite activities from the model to fit the view
         for activity, i in activities
-            start = activity.start
+            start = parseInt activity.start
             activity.startingDate = time.toISO start
             activity.startingTime = time.timesince start
-            stop = activity.stop
+            stop = parseInt activity.stop
             activity.stoppingDate = 
                 if stop then time.toISO stop else ''
             activity.stoppingTime = 
@@ -235,9 +235,8 @@ app.get '/user/charts/tag.json', (req, res) ->
     n = 30
     for i in [30..0]
         start = now - i * day
-        end = now - (i - 1) * day
-        #console.log "Req #%d from %s to %s", i, new Date(start), new Date(end)
-        model.countTag uid, tag, start, end, (err, count) ->
+        stop = now - (i - 1) * day
+        model.countTag uid, tag, start, stop, (err, count) ->
             serie.push [ now - n * day, count ]
             #console.log 'Got n(%d) = %d', n, count
             if n-- is 0
@@ -272,7 +271,7 @@ app.post '/user/activity/new', (req, res) ->
         uid: req.session.user.id
         tag: tag
         start: date.getTime()
-        end: 0
+        stop: 0
     
     req.options.tag = tag
     req.options.date = date
@@ -302,8 +301,14 @@ app.post '/user/activity/stop', (req, res) ->
             date.setMinutes date.getMinutes() - activity.time
     
     # Saving activity
-    model.stopActivity aid, date.getTime() , (err) ->
-        res.redirect 'back'
+    model.stopActivity aid, date.getTime(), (err) ->
+        #console.log 'Activity Stopped'
+        if not req.xhr
+            res.redirect 'back'
+        else
+            model.getActivityDuration aid, (err, duration) ->
+                res.send time.timedelta duration
+                return
         return
     return
 
