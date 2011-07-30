@@ -1,0 +1,16 @@
+- if (typeof(user) != 'undefined')
+    p You are already logged as #{user.name}.
+
+- else
+    form#login-user(method='post', action='/login')
+        p
+            label Username
+            input(name='user[name]', autofocus)
+        p
+            label Password
+            input(name='user[password]', type='password')
+        p
+            input(name='submit', type='submit', value='Login')
+            a#recover-password(href='/reset-password') Lost your password?
+
+#message

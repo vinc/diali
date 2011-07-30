@@ -1,0 +1,36 @@
+- time = (score == 1 ? 'time' : 'times')
+p
+    | You used the tag 
+    a.tag(href="/tags/#{tag}") #{tag}
+    |  #{score} #{time}.
+
+#placeholder(style="width:600px;height:300px;margin:2em auto;font-size: 1em")
+
+script
+    var serie = {
+        color: "rgb(152, 239, 79)"
+    };
+
+    var options = {
+        xaxis: {
+            mode: "time",
+            timeformat: "%m/%d"
+        },
+        yaxis: {
+            tickDecimals: 0
+        },
+        series: {
+            lines: {
+                fill: true,
+                fillColor: "rgba(152, 239, 79, 0.1)"
+            }
+        },
+        grid: {
+            borderWidth: 0
+        }
+    };
+
+    jQuery.getJSON("/user/charts/tag.json?tag=#{tag}", function(data) {
+        serie.data = data;
+        $.plot($("#placeholder"), [ serie ], options);
+    });

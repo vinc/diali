@@ -1,0 +1,33 @@
+form#new-activity(method='post', action='/user/activity/new')
+    label I started 
+        input.tag(name='activity[tag]', autofocus)
+    span.ago
+        select(name='activity[time]')
+            - var items = [ 1, 2, 3, 5, 10, 15, 30, 45, 60]
+            - each item in items
+                option= item
+        \min
+    select.time(name='activity[type]')
+        option now
+        option ago
+        option at
+    span.at
+        select(name='activity[hours]')
+            - var items = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ]
+            - each item in items
+                - item = (item < 10 ? '0' + item : item)
+                option= item
+        \:
+        select(name='activity[minutes]')
+            - var items = [ 0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55 ]
+            - each item in items
+                - item = (item < 10 ? '0' + item : item)
+                option= item
+        select(name='activity[period]')
+            option a.m.
+            option p.m.
+    input(type='submit', value='Submit')
+
+#message
+
+#activities

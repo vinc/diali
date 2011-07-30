@@ -1,0 +1,35 @@
+{
+    "name": "diali",
+    "version": "0.0.1",
+    "description": "A website to log daily life activities",
+    "author": {
+        "name": "Vincent Ollivier",
+        "email": "contact@vincentollivier.com",
+        "url": "http://vincentollivier.com"
+    },
+    "homepage": "http://dia.li",
+    "dependencies": {
+        "connect-redis": ">= 1.0.6",
+        "express": ">= 2.4.2",
+        "email": ">= 0.2.4",
+        "hash": ">= 0.06.0",
+        "hiredis": ">= 0.1.12",
+        "jade": ">= 0.0.1",
+        "joose": ">= 3.18.0",
+        "joosex-namespace-depended": ">= 0.17.0",
+        "jquery": ">= 1.6.2",
+        "mersenne": ">= 0.0.3",
+        "redis": ">= 0.6.6",
+        "socket.io-client": ">= 0.7.4",
+        "socket.io": ">= 0.7.7",
+        "validator": ">= 0.2.6"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/vinc/diali.git"
+    },
+    "scripts": {
+        "preinstall": "./clean.sh",
+        "install": "./make.sh"
+    }
+}

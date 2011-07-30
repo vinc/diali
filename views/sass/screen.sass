@@ -1,0 +1,224 @@
+@import compass/reset
+@import compass/css3
+@import compass/layout/sticky-footer
+
+$primary-color: rgb(152, 239, 79)
+$bg-color: rgb(50, 51, 49)
+$light-background-color: lighten($bg-color, 10%)
+$foreground-color: rgb(229, 251, 207)
+
+@mixin leaf-border
+    padding: 7px
+    +border-radius(10px 2px, 10px 2px)
+
+@mixin message
+    $message-color: rgba(233, 244, 111, 0.7)
+    background-color: $message-color
+    border: solid 2px saturate($message-color, 50%)
+    color: darken(desaturate($message-color, 50%), 60%)
+    font-weight: bold
+    padding: 0.5em
+    font-size: 0.66em
+    margin: 5px auto
+    //width: 20em
+    +border-radius(2px)
+    +box-shadow(darken($message-color, 25%) 0 0 15px inset)
+    +text-shadow(rgba(white, 0.2) 0 -1px 0)
+
+ul.ui-autocomplete, select option
+    background: desaturate(rgba($primary-color, 0.5), 50%)
+    border-color: $primary-color
+    font-size: 0.9em
+    +box-shadow(rgba($primary-color, 0.4) 0 0 32px inset)
+    li.ui-menu-item
+        a
+            color: $foreground-color
+            &#ui-active-menuitem
+                background: desaturate(rgba($primary-color, 0.5), 10%)
+
+body
+    background: $bg-color
+    color: $foreground-color
+    font-family: 'Open Sans', sans-serif
+    font-size: 1.5em
+    background-repeat: no-repeat
+    +text-shadow(rgba(black, 0.1) 0 2px 1px)
+    +background-image(linear-gradient(darken($bg-color, 10%), darken($bg-color, 5%) 20px, $bg-color 95px, $bg-color))    
+    h1, h2
+        margin: 0
+        color: $primary-color
+        font-size: 1.5em
+        padding: 0.5em 0.5em 1.5em
+        text-align: left
+        @include text-shadow(rgba(black, 0.1) 0 2px 1px, rgba(black, 0.4) 0 0 16px)
+        span.light
+            color: lighten($foreground-color, 20%)
+        a:hover
+            text-decoration: none
+    &#homepage
+        +background(radial-gradient(53% 6em, lighten($bg-color, 10%) 0, lighten($bg-color, 0%) 500px))
+        h1
+            padding: 1.5em 0 1em
+            font-size: 3em
+            text-align: center
+    p, input, select
+        +text-shadow(rgba(black, 0.8) 0 1px 0)
+    p
+        padding: 14px
+        .tag
+            background-color: lighten($bg-color, 10%)
+            color: $foreground-color
+            @include leaf-border
+    a
+        color: $primary-color
+        text-decoration: none
+        &:hover
+            text-decoration: underline
+    form
+        text-align: left
+        // TODO fix this
+        input, select
+            border: 2px solid lighten($bg-color, 20%)
+            background: lighten($bg-color, 10%)
+            color: $foreground-color
+            padding: 0.2em
+            +border-radius(5px)
+            +box-shadow(lighten($bg-color, 15%) 0 0 20px, lighten($bg-color, 10%) 0 0 5px inset)
+            &:focus
+                +box-shadow(darken($primary-color, 10%) 0 0 20px, lighten($bg-color, 10%) 0 0 5px inset)
+                border-color: $primary-color
+                outline: none
+        input[type="submit"]
+            $submit-border-color: darken($primary-color, 35%)
+            background-color: $primary-color
+            color: darken($primary-color, 40%)
+            border: 2px solid $submit-border-color
+            +background-image(linear-gradient(lighten($primary-color, 25%), darken($primary-color, 5%)))
+            +box-shadow(lighten($bg-color, 15%) 0 0 20px, $submit-border-color 0 0 5px inset)
+            +text-shadow(rgba(lighten($primary-color, 25%), 0.5) 0 -1px 0)
+            &:focus, &:active
+                border-color: $primary-color
+                +box-shadow(darken($primary-color, 10%) 0 0 20px, $submit-border-color 0 0 5px inset)
+            &:active
+                color: darken($primary-color, 30%)
+                +background-image(linear-gradient(lighten($primary-color, 5%), darken($primary-color, 10%)))
+                +box-shadow(darken($primary-color, 10%) 0 0 20px, darken($primary-color, 35%) 0 0 15px inset)
+
+    form#new-activity, form.stop-activity
+        text-align: center
+        input.tag
+            width: 16em
+            margin: 0 0.6em 0 0.3em        
+            @include leaf-border
+        input, select
+            padding: 6px
+            font-size: 1em
+            margin-right: 0.4em
+        .ago, .at, input[type='submit']
+            display: none
+
+    form#new-user, form#login-user, form#reset-password
+        width: 23.25em
+        margin: 0 auto
+        //border: 1px solid red
+        p
+            clear: both
+            label
+                display: block
+                float: left
+                font-size: 0.85em
+                // TODO find the correct line-height
+                line-height: 2em
+                text-align: right
+                width: 5em
+            input
+                font-size: 0.85em
+                margin-left: 1em
+                width: 15em
+            input[type="submit"]
+                margin-left: 5.95em
+                width: inherit
+            a#recover-password
+                font-size: 0.66em
+                margin-left: 2.5em
+    #header
+        h1
+            //font-family: 'Istok Web', sans-serif
+        #menu
+            float: left
+            width: 40%
+        #userbox
+            position: absolute
+            top: 0
+            right: 0
+            text-align: right
+            font-size: 0.66em
+            color: desaturate(darken($foreground-color, 50%), 75%)
+        #events
+            position: fixed 
+            bottom: 5px
+            right: 10px
+            //width: 100%
+            text-align: center 
+            z-index: 5000
+            p
+                @include message
+                width: inherit
+
+    #content
+        margin: 0 2em 2em
+        h2
+            text-align: center
+        .activity
+            padding: 0.5em
+            //color: darken(desaturate($foreground-color, 90%), 20%)
+            position: relative
+            .icons
+                position: absolute
+                top: 1.5em
+                right: 1em
+                display: none
+                img
+                    height: 2em
+                    width: 2em
+            &:hover
+                background-color: rgba($foreground-color, 0.07)
+                +box-shadow(rgba($primary-color, 0.15) 0 0 15px inset)
+                +border-radius(10px)
+                .icons
+                    display: inline
+            p
+                padding: 0
+                line-height: 2em
+                time
+                    color: $foreground-color
+                    //font-style: italic
+                    //font-style: italic
+            .stop-activity
+                text-align: left
+                padding-top: 0.2em
+                margin-left: 2em
+                input[type='submit']
+                    display: inline
+
+        #message, .message
+            color: desaturate($foreground-color, 50%)
+            font-size: 0.66em
+            text-align: center
+            margin-top: 1em
+            p
+                margin: 0
+                padding: 5px
+
+    #root-footer
+        clear: both
+
+    #footer
+        color: desaturate(darken($foreground-color, 50%), 75%)
+        font-size: 0.66em
+        text-align: center 
+        width: 100%
+        a, a:hover
+            color: desaturate(darken($foreground-color, 50%), 75%)
+
++sticky-footer(50px, "#root", "#root-footer", "#footer")

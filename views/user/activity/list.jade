@@ -1,0 +1,56 @@
+- each activity in activities
+    - var aid = activity.aid
+    - var startingDate = activity.startingDate
+    - var startingTime = activity.startingTime
+    - var stoppingDate = activity.stoppingDate
+    - var stoppingTime = activity.stoppingTime
+    - var duration = activity.duration
+    .activity()
+        p.icons
+            a.delete-activity(href="/user/activity/del/#{aid}", title="Delete this activity")
+                img(src="/images/edit-delete.svg")
+        p 
+            | You started
+            a.tag(href="/user/tags/#{activity['tag']}") !{activity['tag']}
+            | 
+            time(datetime="#{startingDate}", pubdate) !{startingTime}
+        - if (stoppingDate == '')
+            form.stop-activity(method='post', action='/user/activity/stop')
+                input(name='activity[aid]', type='hidden', value='#{aid}')
+                span 
+                    | and you stopped it
+                span.ago
+                    select(name='activity[time]')
+                        - var items = [ 1, 2, 3, 5, 10, 15, 30, 45, 60]
+                        - each item in items
+                            option= item
+                    \min
+                select.time(name='activity[type]')
+                    option now
+                    option ago
+                    option at
+                span.at
+                    select(name='activity[hours]')
+                        - var items = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ]
+                        - each item in items
+                            - item = (item < 10 ? '0' + item : item)
+                            option= item
+                    \:
+                    select(name='activity[minutes]')
+                        - var items = [ 0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55 ]
+                        - each item in items
+                            - item = (item < 10 ? '0' + item : item)
+                            option= item
+                    select(name='activity[period]')
+                        option a.m.
+                        option p.m.
+                input(type='submit', value='Submit')
+        - else
+            p.stop-activity
+                - // | and you stopped it
+                - // time(datetime="#{stoppingDate}") !{stoppingTime}
+                | and you did it 
+                time !{duration}.
+
+- if (typeof(message) != 'undefined')
+    p.message #{message}

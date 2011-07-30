@@ -1,0 +1,23 @@
+- //p#menu
+- //    a(href='/') Home
+
+h1 
+    a(href='/') 
+        | Dia.li
+        span.light (fe)
+        |  log
+
+p#userbox
+    - if (typeof(user) != 'undefined')
+        a(href='#') #{user.name}
+        |  | 
+        a(href='/user/activity/list') History
+        |  | 
+        a(href='/logout') Logout
+    - else
+        a#login(href='/login') Login
+        |  | 
+        a#register(href='/register') Create an account
+
+
+div#events

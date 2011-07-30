@@ -1,0 +1,15 @@
+- if (typeof(user) != 'undefined')
+    p.message You are already logged as #{user.name}.
+
+- else
+    form#new-user(method='post', action='/register')
+        p
+            label Username
+            input(name='user[name]', autofocus)
+        p
+            label Email
+            input(name='user[email]')
+        p
+            input(name='submit', type='submit', value='Register')
+
+#message

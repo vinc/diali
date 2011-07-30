@@ -1,0 +1,14 @@
+- each activity in activities
+    - var aid = activity.aid
+    - var startingDate = activity.startingDate
+    - var startingTime = activity.startingTime
+    .activity
+        p 
+            | Someone started
+            a.tag(href="/user/tags/#{activity['tag']}") !{activity['tag']}
+            | 
+            time(datetime="#{startingDate}", pubdate) !{startingTime}
+            |.
+
+- if (typeof(message) != 'undefined')
+    p.message #{message}
