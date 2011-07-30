@@ -252,7 +252,7 @@ app.post '/user/activity/new', (req, res) ->
     tag = sanitize(activity.tag).xss()
     minutes = sanitize(activity.minutes).toInt()
     hours = sanitize(activity.hours).toInt()
-    period = sanitize(activity.period).toInt()
+    period = sanitize(activity.period).xss()
     timeAgo = sanitize(activity.time).toInt()
 
     # Generate activity date
@@ -261,7 +261,7 @@ app.post '/user/activity/new', (req, res) ->
         when 'at'
             date = new Date()
             date.setMinutes minutes
-            date.setHours(parseInt hours + (if period is 'p.m.' then 12 else 0))
+            date.setHours(hours + (if period is 'p.m.' then 12 else 0))
             if date > new Date()
                 date.setDate date.getDate() - 1
         when 'ago'
