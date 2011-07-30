@@ -89,6 +89,13 @@ exports.stopActivity = (aid, timestamp, callback) ->
     client.hset key, 'stop', timestamp, callback
     return
 
+exports.getActivityDuration = (aid, callback) ->
+    key = 'aid:' + aid + ':activity'
+    client.hgetall key, (err, activity) ->
+        callback err, activity.stop - activity.start
+        return
+
+
 exports.addUser = (user, callback) ->
     # Increments and get the users counter
     client.incr 'global:uid', (err, uid) ->
@@ -139,10 +146,10 @@ exports.getTagScore = (uid, tag, callback) ->
     client.zscore 'uid:' + uid + ':tags', tag, callback
     return
 
-exports.countTag = (uid, tag, start, end, callback) ->
+exports.countTag = (uid, tag, start, stop, callback) ->
     key = 'uid:' + uid + ':aids'
     count = 0
-    client.zrangebyscore key, start, end, (err, aids) ->
+    client.zrangebyscore key, start, stop, (err, aids) ->
         if aids? and aids.length
             loadActivities aids, (err, activities) ->
                 for activity in activities
